@@ -39,14 +39,17 @@ class Adv extends CI_Controller {
     public function boardinfo(){
         $idgame = htmlspecialchars($this->input->post('idgame'));
         $actmonth = htmlspecialchars($this->input->post('actmonth'));
+        $uname = htmlspecialchars($this->input->post('uname'));
 
-        $checkdup = $this->Adv_Model->boardinfo($idgame, $actmonth);
+        $checkdup = $this->Adv_Model->boardinfo($idgame, $actmonth, $uname);
 
         echo json_encode($checkdup);
     }
     
     public function addnew_tts_user(){
-    
+        // $userinput = 'dendy';
+        // $idgame = '05W125';
+
         $userinput = htmlspecialchars($this->input->post('uname_reg'));
         $idgame = htmlspecialchars($this->input->post('idgame'));
 
@@ -65,8 +68,9 @@ class Adv extends CI_Controller {
         $idgame = htmlspecialchars($this->input->post('idgame'));
         $j_hor = $this->input->post('j_hor');
         $j_ver = $this->input->post('j_ver');
+        $prggame = $this->input->post('prggame');
 
-        $checkdup = $this->Adv_Model->updategametts($userinput, $idgame, $j_hor, $j_ver);
+        $checkdup = $this->Adv_Model->updategametts($userinput, $idgame, $j_hor, $j_ver, $prggame);
 
         echo json_encode($checkdup);
     }

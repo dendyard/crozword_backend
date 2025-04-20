@@ -8,8 +8,10 @@ class Adv_Model extends CI_Model
 		parent::__construct();
 	}
 
-    public function boardinfo($idgame='', $actmonth){
-        $sql0 = "SELECT * FROM `crossword_board_set` WHERE substring(`cwrilis`,1,2) = '" . $actmonth . "' ORDER BY substring(`cwrilis`,7,2) DESC";
+    public function boardinfo($idgame='', $actmonth, $uname='testing'){
+        //$sql0 = "SELECT * FROM `crossword_board_set` WHERE substring(`cwrilis`,1,2) = '" . $actmonth . "' ORDER BY substring(`cwrilis`,7,2) DESC";
+        //$sql0 = "SELECT a.idboard, a.boardset,a.hor_set, a.ver_set, a.idgame, a.boardsize, a.j_hor, a.j_ver, a.ttsinfo, a.cwrilis, a.liveschedule , b.prggame FROM `crossword_board_set` a LEFT JOIN `userregtts` b ON a.idgame=b.idgame WHERE substring(`cwrilis`,1,2) = '" . $actmonth . "' ORDER BY substring(`cwrilis`,7,2) DESC";
+        $sql0 = "SELECT a.idboard, a.boardset,a.hor_set, a.ver_set, a.idgame, a.boardsize, a.j_hor, a.j_ver, a.ttsinfo, a.cwrilis, a.liveschedule, (SELECT b.prggame FROM userregtts b WHERE uname='" . $uname . "' AND b.idgame=a.idgame ORDER BY b.intime DESC LIMIT 1 ) AS prggame FROM crossword_board_set a WHERE statuscw=1 AND substring(`cwrilis`,1,2) = '" . $actmonth . "' ORDER BY a.idboard DESC";
         
         $query0 = $this->db->query($sql0);
         $result = $query0->result_array();
@@ -63,8 +65,8 @@ class Adv_Model extends CI_Model
         return $queryins;
     }
 
-    public function updategametts($userinput, $idgame, $j_hor, $j_ver){
-        $sql0 = "UPDATE userregtts SET j_hor='" . $j_hor . "', j_ver='" . $j_ver . "' WHERE uname='" . $userinput . "' AND idgame='" . $idgame . 
+    public function updategametts($userinput, $idgame, $j_hor, $j_ver, $prggame){
+        $sql0 = "UPDATE userregtts SET j_hor='" . $j_hor . "', j_ver='" . $j_ver . "', prggame=" . $prggame ." WHERE uname='" . $userinput . "' AND idgame='" . $idgame . 
         "'";
         $query0 = $this->db->query($sql0);
 
